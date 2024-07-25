@@ -56,24 +56,25 @@ def build_dataset(sample_length,sentence_length):
 def eval(model):
     model.eval()
     x, y = build_dataset(200, 8)
-    print("本次预测集中共有%d个正样本，%d个负样本" % (sum(y), 200 - sum(y)))# 建立200个用于测试的样本
+    # print("本次预测集中共有%d个正样本，%d个负样本" % (sum(y), 200 - sum(y)))# 建立200个用于测试的样本
     correct, wrong = 0, 0
     with torch.no_grad():
         # x, y = build_dataset(200,8)  # 建立200个用于测试的样本
         y_pred = model(x)  # 模型预测
         for y_p, y_t in zip(y_pred, y):  # 与真实标签进行对比
             if float(y_p) < 0.5 and int(y_t) == 0:
-                wrong += 1  # 负样本判断正确
+                correct += 1  # 负样本判断正确
             elif float(y_p) >= 0.5 and int(y_t) == 1:
                 correct += 1  # 正样本判断正确
-            # else:
-            #     wrong += 1
+            else:
+                wrong += 1
+    print(correct, wrong)
     print("正确预测个数：%d, 正确率：%f" % (correct, correct / (correct + wrong)))
     return correct / (correct + wrong)
 
 
 def main():
-    epoch_num = 200  # 训练轮数
+    epoch_num = 20  # 训练轮数
     batch_size = 20  # 每次训练样本个数
     train_sample = 500  # 每轮训练总共训练的样本总数
     char_dim = 25  # 每个字的维度
