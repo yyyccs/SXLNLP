@@ -36,7 +36,7 @@
 #         return torch.mean(diff[diff.gt(0)]) #greater than
 
 #     #sentence : (batch_size, max_length)
-#     def forward(self, sentence1, sentence2, sentence3=None):
+#     def forward(self, sentence1, sentence2=None, sentence3=None):
 #         #同时传入两个句子
 #         if sentence2 is not None:
 #             vector1 = self.sentence_encoder(sentence1) #vec:(batch_size, hidden_size)
