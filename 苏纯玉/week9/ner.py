@@ -77,7 +77,7 @@ def main():
     tokenizer = BertTokenizer.from_pretrained(bert_path)
     model = torch_model(bert_path, hidden_size=768, class_num=len(schema))
     data = load_data(train_path, tokenizer, schema, max_length)
-    epoch_num = 20
+    epoch_num = 10
     batch_size = 128
     lr = 0.001
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
