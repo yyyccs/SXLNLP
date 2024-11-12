@@ -24,8 +24,10 @@ peft_config = LoraConfig(
 
 def lora_model(model):
     model = get_peft_model(model, peft_config)
-    for param in model.get_submodule("model").get_submodule("classifier").parameters():
+    for param in model.get_submodule("model").get_submodule("classify").parameters():
         param.requires_grad = True
+    logger.info('lora被使用啦')
+    return model
 
 
 class torch_model(nn.Module):
@@ -91,6 +93,7 @@ def main():
 
     tokenizer = BertTokenizer.from_pretrained(bert_path)
     model = torch_model(bert_path, hidden_size=768, class_num=len(schema))
+    model = lora_model(model)
     data = load_data(train_path, tokenizer, schema, max_length)
     epoch_num = 10
     batch_size = 128
